@@ -18,6 +18,7 @@ import javafx.scene.Node;
 
 import controller.*;
 
+// mainApp class
 public class MainApp extends Application {
 
   public static void main(String[] args) {
