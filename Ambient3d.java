@@ -20,12 +20,14 @@ public class Ambient3d {
   private ImageView universo;
   private Camera camera;
 
-  private void createInternalSystem() throws IOException {
-    Model sole = new Model(1.989e30,zero,zero,3);
+  private void createSun() throws IOException{
+    Model sole = new Model(1.989e30,zero,zero,109.3);
     sole.setImage("img/3d_model/sole_3d.jpg");
     solar.getChildren().add(sole.getSphere());
     solarSystem.addCorpo(sole);
+  }
 
+  private void createInnerSystem() throws IOException {
     Model marte = new Model(6.39e23, new Vector3D(227.9e9,0,0), new Vector3D(0,0,-227.9e9*Math.sin(24.077/227.9e6)), 0.53);
     marte.setImage("img/3d_model/marte_3d.jpg");
     solar.getChildren().add(marte.getSphere());
@@ -48,6 +50,28 @@ public class Ambient3d {
     solarSystem.addCorpo(venere);
   }
 
+  private void createOuterSystem() throws IOException{
+    Model giove = new Model(1.89e27, new Vector3D(778.3e9,0,0), new Vector3D(0,0,-778.3e9*Math.sin(13.1/778.3e6)), 11.21);
+    giove.setImage("img/3d_model/giove_3d.jpg");
+    solar.getChildren().add(giove.getSphere());
+    solarSystem.addCorpo(giove);
+
+    Model saturno = new Model(5.68e26, new Vector3D(1.42e12,0,0), new Vector3D(0,0,-1.42e12*Math.sin(9.7/1.42e9)), 9.45);
+    saturno.setImage("img/3d_model/saturno_3d.jpg");
+    solar.getChildren().add(saturno.getSphere());
+    solarSystem.addCorpo(saturno);
+
+    Model urano = new Model(8.68e25, new Vector3D(2.87e12,0,0), new Vector3D(0,0,-2.87e12*Math.sin(6.8/2.87e9)), 4.01);
+    urano.setImage("img/3d_model/urano_3d.jpg");
+    solar.getChildren().add(urano.getSphere());
+    solarSystem.addCorpo(urano);
+
+    Model nettuno = new Model(1.02e26, new Vector3D(4.50e12,0,0), new Vector3D(0,0,-4.50e12*Math.sin(5.4/4.50e9)), 3.88);
+    nettuno.setImage("img/3d_model/nettuno_3d.jpg");
+    solar.getChildren().add(nettuno.getSphere());
+    solarSystem.addCorpo(nettuno);
+  }
+
   private void createBackground() throws IOException {
     URL uni_url = getClass().getClassLoader().getResource("img/3d_model/space.jpg");
     Image uni = new Image(uni_url.openStream());
@@ -66,7 +90,9 @@ public class Ambient3d {
     solar = new Group();
     zero = new Vector3D();
     solarSystem = new SistemaSolare3D();
-    createInternalSystem();
+    createSun();
+    createInnerSystem();
+    createOuterSystem();
     createBackground();
     createCamera();
   }

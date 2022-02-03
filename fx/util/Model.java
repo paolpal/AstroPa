@@ -61,7 +61,7 @@ public class Model extends CorpoCeleste3D {
   public Model(double mass, Vector3D _position, Vector3D velocity, double rad){
     super(mass,_position,velocity);
     radius = rad;
-    globo = new Sphere(radius*rTerra);
+    globo = new Sphere(rescaleRad(radius)*rTerra);
     rotationRate = 1;
     globo.setRotationAxis(Rotate.Y_AXIS);
   }
@@ -92,10 +92,34 @@ public class Model extends CorpoCeleste3D {
     globo.getTransforms().add(ry);
   }
 
+  private double abs(double n){
+    return Math.abs(n);
+  }
+
+  private double log(double n){
+    return Math.log(n);
+  }
+
+  private double log(double n, double b){
+    return Math.log(n)/Math.log(b);
+  }
+
+  private double rescaleDist(double n){
+    double sign = n/abs(n);
+    return sign * log(1+abs(n),1.01);
+  }
+
+  private double rescaleRad(double n){
+    return log(n+1,5);
+  }
+
   public void render(){
-    globo.setTranslateX(getPos().getX()/(1e9));
+    /*globo.setTranslateX(getPos().getX()/(1e9));
     globo.setTranslateY(getPos().getY()/(1e9));
-    globo.setTranslateZ(getPos().getZ()/(1e9));
+    globo.setTranslateZ(getPos().getZ()/(1e9));*/
+    globo.setTranslateX(rescaleDist(getPos().getX()/Universal.UA));
+    globo.setTranslateY(getPos().getY());
+    globo.setTranslateZ(rescaleDist(getPos().getZ()/Universal.UA));
     globo.rotateProperty().set(globo.getRotate() + rotationRate*rotTerra);
   }
 
